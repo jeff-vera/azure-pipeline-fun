@@ -1,16 +1,84 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 pool:
-  vmImage: 'Ubuntu 16.04'
+  vmImage: 'VS2017-Win2016'
+
+trigger:
+- master
+- develop
+- feature/*
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  restoreBuildProjects: 'src/**/*.csproj'
+  unitTestProjects: 'tests/**/*Tests.Unit/*.csproj'
+  integrationTestProjects: 'tests/**/*Tests.Integration/*.csproj'
+
+
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: DotNetCoreCLI@2
+  displayName: Restore
+  inputs:
+    command: restore
+    projects: '$(restoreBuildProjects)'
+
+
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    projects: '$(restoreBuildProjects)'
+
+    arguments: '--configuration $(buildConfiguration)'
+
+- script: >
+    dotnet test --logger trx 
+    /p:CollectCoverage=true 
+    /p:CoverletOutputFormat=cobertura 
+    /p:Threshold=100 
+    /p:ThresholdType=line 
+  displayName: 'Unit tests'
 
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    dotnet tool install dotnet-reportgenerator-globaltool --tool-path . --version 4.0.0-rc4
+    mkdir $(Build.SourcesDirectory)\results
+    .\reportgenerator "-reports:.\tests\*\coverage.cobertura.xml" "-targetdir:results" "-reporttypes:Cobertura" 
+    .\reportgenerator "-reports:.\tests\*\coverage.*.xml" "-targetdir:results" "-reporttypes:HTMLInline;HTMLChart"
+  displayName: "Generate coverage results"
+
+- task: PublishTestResults@2
+  displayName: Publish test results 
+  inputs:
+    testRunner: VSTest
+    testResultsFiles: '**/*.trx'
+
+- task: PublishCodeCoverageResults@1
+  displayName: Publish code coverage results 
+  inputs:
+    summaryFileLocation: $(Build.SourcesDirectory)\results\Cobertura.xml
+    reportDirectory: $(Build.SourcesDirectory)\results
+    codecoverageTool: cobertura
+    failIfCoverageEmpty: true 
+
+- task: DotNetCoreCLI@2
+  displayName: Publish
+  inputs:
+    command: publish
+    publishWebProjects: True
+    arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)'
+    zipAfterPublish: True
+
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+
+
+
+
