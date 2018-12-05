@@ -42,6 +42,7 @@ steps:
     /p:CoverletOutputFormat=cobertura 
     /p:Threshold=100 
     /p:ThresholdType=line 
+    /p:Exclude=[*Tests]*
   displayName: 'Unit tests'
 
 - script: |
