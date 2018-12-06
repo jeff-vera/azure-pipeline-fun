@@ -37,7 +37,7 @@ steps:
     arguments: '--configuration $(buildConfiguration)'
 
 - script: >
-    dotnet test --logger trx .\tests\GarbageTests\
+    dotnet test --logger trx 
     /p:CollectCoverage=true 
     /p:CoverletOutputFormat=cobertura 
     /p:Threshold=100 
