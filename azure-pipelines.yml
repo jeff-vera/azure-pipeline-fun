@@ -65,7 +65,7 @@ steps:
     codecoverageTool: cobertura
     failIfCoverageEmpty: true 
 
-- task: mspremier.BuildQualityChecks.QualityChecks-task.BuildQualityChecks@4 
+- task: mspremier.BuildQualityChecks.QualityChecks-task.BuildQualityChecks 
   displayName: Build quality 
   inputs:
     checkWarnings: true 
