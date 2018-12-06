@@ -65,6 +65,11 @@ steps:
     codecoverageTool: cobertura
     failIfCoverageEmpty: true 
 
+- task: mspremier.BuildQualityChecks.QualityChecks-task.BuildQualityChecks@5
+  displayName: Build quality 
+  inputs:
+    checkWarnings: true 
+
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact'
   inputs:
