@@ -8,11 +8,11 @@ namespace WasteTests
         [Fact]
         public void CanSubtractTest()
         {
-            //var w = new Waste.Waste();
+            var w = new Waste.Waste();
 
-            //var result = w.Subtract(5, 3);
+            var result = w.Subtract(5, 3);
 
-            //Assert.Equal(2, result);
+            Assert.Equal(2, result);
         }
     }
 }
