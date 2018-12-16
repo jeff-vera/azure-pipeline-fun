@@ -48,7 +48,7 @@ steps:
     azureSubscription: 'Azure-Pipeline-Fun-rg - Azure Service Endpoint'
     ServerName: 'jeff-vera-discovery.database.windows.net'
     DatabaseName: TestDb
-    SqlUsername: deleteme
+    SqlUsername: delete_me
     SqlPassword: randomness!@#456
     DacpacFile: '.\tests\TestDb\bin\$(buildConfiguration)\TestDb.dacpac'
 
