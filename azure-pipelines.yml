@@ -39,12 +39,12 @@ steps:
   displayName: restore database projects
   inputs:
     command: restore
-    projects: 'src/**/*.sqlproj'
+    projects: '**/*.sqlproj'
 
 - task: DotNetCoreCLI@2
   displayName: build database projects
   inputs:
-    projects: 'src/**/*.sqlproj'
+    projects: '**/*.sqlproj'
 
     arguments: '--configuration $(buildConfiguration)'
 - task: SqlAzureDacpacDeployment@1
