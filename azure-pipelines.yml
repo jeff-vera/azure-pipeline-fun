@@ -59,7 +59,15 @@ steps:
     DacpacFile: '.\tests\TestDb\bin\$(buildConfiguration)\TestDb.dacpac'
 
 - script: >
-    dotnet test --logger trx 
+    dotnet test --logger trx tests/RefuseTests
+    /p:CollectCoverage=true 
+    /p:CoverletOutputFormat=cobertura 
+    /p:Threshold=100 
+    /p:ThresholdType=line 
+  displayName: 'Unit tests'
+
+- script: >
+    dotnet test --logger trx tests/GarbageTests
     /p:CollectCoverage=true 
     /p:CoverletOutputFormat=cobertura 
     /p:Threshold=100 
@@ -86,7 +94,7 @@ steps:
     reportDirectory: $(Build.SourcesDirectory)\results
     codecoverageTool: cobertura
     failIfCoverageEmpty: true 
-    
+
 - task: mspremier.BuildQualityChecks.QualityChecks-task.BuildQualityChecks@5
   displayName: Check build quality 
   inputs:
