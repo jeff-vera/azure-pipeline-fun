@@ -59,7 +59,7 @@ steps:
     DacpacFile: '.\tests\TestDb\bin\$(buildConfiguration)\TestDb.dacpac'
 
 - script: >
-    dotnet test --logger trx tests/RefuseTests
+    dotnet test --logger trx .\tests\RefuseTests
     /p:CollectCoverage=true 
     /p:CoverletOutputFormat=cobertura 
     /p:Threshold=100 
@@ -67,7 +67,7 @@ steps:
   displayName: 'Unit tests'
 
 - script: >
-    dotnet test --logger trx tests/GarbageTests
+    dotnet test --logger trx .\tests\GarbageTests
     /p:CollectCoverage=true 
     /p:CoverletOutputFormat=cobertura 
     /p:Threshold=100 
