@@ -36,8 +36,6 @@ steps:
 
     arguments: '--configuration $(buildConfiguration)'
 
-steps:
-
 - task: SqlAzureDacpacDeployment@1=
   displayName: 'Deploy unit test database'
   inputs:
