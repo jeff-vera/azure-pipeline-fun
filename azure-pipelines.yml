@@ -44,7 +44,7 @@ steps:
     DatabaseName: TestDb
     SqlUsername: hilarious
     SqlPassword: ''
-    DacpacFile: ..
+    DacpacFile: '.\tests\TestDb\bin\$(buildConfiguration)\bin\Test.dacpac'
 
 - script: >
     dotnet test --logger trx 

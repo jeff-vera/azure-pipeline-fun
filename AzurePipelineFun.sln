@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GarbageTests", "tests\Garba
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WasteTests", "tests\WasteTests\WasteTests.csproj", "{4339531E-4552-4662-84A1-59479CFCCD61}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Refuse", "Refuse\Refuse.csproj", "{B8442674-F8F3-4AA9-8CDC-9573137093E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Refuse", "Refuse\Refuse.csproj", "{B8442674-F8F3-4AA9-8CDC-9573137093E8}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "TestDb", "tests\TestDb\TestDb.sqlproj", "{14468164-4A29-4880-AACB-6CB9B4ADCDB7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,12 @@ Global
 		{B8442674-F8F3-4AA9-8CDC-9573137093E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8442674-F8F3-4AA9-8CDC-9573137093E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8442674-F8F3-4AA9-8CDC-9573137093E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14468164-4A29-4880-AACB-6CB9B4ADCDB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14468164-4A29-4880-AACB-6CB9B4ADCDB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14468164-4A29-4880-AACB-6CB9B4ADCDB7}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{14468164-4A29-4880-AACB-6CB9B4ADCDB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14468164-4A29-4880-AACB-6CB9B4ADCDB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14468164-4A29-4880-AACB-6CB9B4ADCDB7}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +56,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{8973EB7F-40FA-4866-9EC9-139896115E34} = {35F1BCB4-D38A-4C3C-A361-53E5E24AB3BD}
 		{4339531E-4552-4662-84A1-59479CFCCD61} = {35F1BCB4-D38A-4C3C-A361-53E5E24AB3BD}
+		{14468164-4A29-4880-AACB-6CB9B4ADCDB7} = {35F1BCB4-D38A-4C3C-A361-53E5E24AB3BD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D7CF0BB9-2CA1-499B-8418-E8ABB110A912}
