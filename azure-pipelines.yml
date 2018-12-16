@@ -58,13 +58,10 @@ steps:
     SqlPassword: $(pipeline-fun-unittest-user-password)
     DacpacFile: '.\tests\TestDb\bin\$(buildConfiguration)\TestDb.dacpac'
 
-- script: >
-    dotnet test --logger trx 
-    /p:CollectCoverage=true 
-    /p:CoverletOutputFormat=cobertura 
-    /p:Threshold=100 
-    /p:ThresholdType=line 
-  displayName: 'Unit tests'
+- task: VSTest@2
+  inputs:
+    codeCoverageEnabled: True
+    configuration: $(buildConfiguration)
 
 - script: |
     dotnet tool install dotnet-reportgenerator-globaltool --tool-path . --version 4.0.0-rc4
