@@ -40,7 +40,7 @@ steps:
   displayName: 'Deploy unit test database'
   inputs:
     azureSubscription: 'Azure-Pipeline-Fun-rg - Azure Service Endpoint'
-    ServerName: 'jeff-vera-discovery'
+    ServerName: 'jeff-vera-discovery.database.windows.net'
     DatabaseName: TestDb
     SqlUsername: hilarious
     SqlPassword: ''
