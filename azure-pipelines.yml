@@ -69,14 +69,6 @@ steps:
     testRunner: VSTest
     testResultsFiles: '**/*.trx'
 
-- task: PublishCodeCoverageResults@1
-  displayName: Publish code coverage results 
-  inputs:
-    summaryFileLocation: $(Build.SourcesDirectory)\results\Cobertura.xml
-    reportDirectory: $(Build.SourcesDirectory)\results
-    codecoverageTool: cobertura
-    failIfCoverageEmpty: true 
-
 - task: mspremier.BuildQualityChecks.QualityChecks-task.BuildQualityChecks@5
   displayName: Check build quality 
   inputs:
