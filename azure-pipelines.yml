@@ -63,13 +63,6 @@ steps:
     codeCoverageEnabled: True
     configuration: $(buildConfiguration)
 
-- script: |
-    dotnet tool install dotnet-reportgenerator-globaltool --tool-path . --version 4.0.0-rc4
-    mkdir $(Build.SourcesDirectory)\results
-    .\reportgenerator "-reports:.\tests\*\coverage.cobertura.xml" "-targetdir:results" "-reporttypes:Cobertura" 
-    .\reportgenerator "-reports:.\tests\*\coverage.*.xml" "-targetdir:results" "-reporttypes:HTMLInline;HTMLChart"
-  displayName: "Generate coverage results"
-
 - task: PublishTestResults@2
   displayName: Publish test results 
   inputs:
