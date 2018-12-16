@@ -40,7 +40,8 @@ steps:
   inputs: 
     solution: tests/TestDb/TestDb.sqlproj
     createLogFile: true 
-
+    configuration: Release 
+    
 - task: SqlAzureDacpacDeployment@1
   displayName: 'Deploy unit test database'
   inputs:
