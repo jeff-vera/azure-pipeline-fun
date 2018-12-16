@@ -35,18 +35,12 @@ steps:
 
     arguments: '--configuration $(buildConfiguration)'
 
-- task: DotNetCoreCLI@2
-  displayName: restore database projects
-  inputs:
-    command: restore
-    projects: '**/*.sqlproj'
+- task: MSBuild@1
+  displayName: build unit test database
+  inputs: 
+    solution: tests/TestDb/TestDb.sqlproj
+    createLogFile: true 
 
-- task: DotNetCoreCLI@2
-  displayName: build database projects
-  inputs:
-    projects: '**/*.sqlproj'
-
-    arguments: '--configuration $(buildConfiguration)'
 - task: SqlAzureDacpacDeployment@1
   displayName: 'Deploy unit test database'
   inputs:
