@@ -58,11 +58,42 @@ steps:
     SqlPassword: $(pipeline-fun-unittest-user-password)
     DacpacFile: '.\tests\TestDb\bin\$(buildConfiguration)\TestDb.dacpac'
 
-- task: VSTest@2
+- script: >
+    dotnet test --logger trx 
+    /p:CollectCoverage=true 
+    /p:CoverletOutputFormat=cobertura 
+    /p:Threshold=100 
+    /p:ThresholdType=line 
+  displayName: 'Unit tests'
+
+- task: PublishTestResults@2
+  displayName: Publish test results 
   inputs:
-    codeCoverageEnabled: True
-    configuration: $(buildConfiguration)
-    publishRunAttachments: true 
+    testRunner: VSTest
+    testResultsFiles: '**/*.trx'
+
+- script: |
+    dotnet tool install dotnet-reportgenerator-globaltool --tool-path . --version 4.0.0-rc4
+    mkdir $(Build.SourcesDirectory)\results
+    .\reportgenerator "-reports:.\tests\*\coverage.cobertura.xml" "-targetdir:results" "-reporttypes:Cobertura" 
+    .\reportgenerator "-reports:.\tests\*\coverage.*.xml" "-targetdir:results" "-reporttypes:HTMLInline;HTMLChart"
+  displayName: "Generate coverage results"
+
+- task: PublishCodeCoverageResults@1
+  displayName: Publish code coverage results 
+  inputs:
+    summaryFileLocation: $(Build.SourcesDirectory)\results\Cobertura.xml
+    reportDirectory: $(Build.SourcesDirectory)\results
+    codecoverageTool: cobertura
+    failIfCoverageEmpty: true 
+    
+- task: mspremier.BuildQualityChecks.QualityChecks-task.BuildQualityChecks@5
+  displayName: Check build quality 
+  inputs:
+    checkCoverage: true 
+    coverageFailOption: fixed 
+    coverageType: lines 
+    coverageThreshold: 70 
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact'
