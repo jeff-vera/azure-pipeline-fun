@@ -36,6 +36,18 @@ steps:
 
     arguments: '--configuration $(buildConfiguration)'
 
+steps:
+
+- task: SqlAzureDacpacDeployment@1=
+  displayName: 'Deploy unit test database'
+  inputs:
+    azureSubscription: 'Azure-Pipeline-Fun-rg - Azure Service Endpoint'
+    ServerName: 'jeff-vera-discovery'
+    DatabaseName: TestDb
+    SqlUsername: hilarious
+    SqlPassword: ''
+    DacpacFile: ..
+
 - script: >
     dotnet test --logger trx 
     /p:CollectCoverage=true 
