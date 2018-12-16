@@ -18,7 +18,7 @@ variables:
   restoreBuildProjects: 'src/**/*.csproj'
   unitTestProjects: 'tests/**/*Tests.Unit/*.csproj'
   integrationTestProjects: 'tests/**/*Tests.Integration/*.csproj'
-
+  azureSubscription: 'Azure-Pipeline-Fun-rg - Azure Service Endpoint'
 
 
 steps:
@@ -42,14 +42,20 @@ steps:
     createLogFile: true 
     configuration: Release 
 
+- task: AzureKeyVault@1
+  inputs:
+    azureSubscription: $(azureSubscription)
+    keyVaultName: jeffvera-dev-keyvault    
+    secretsFilter: pipeline-fun-unittest-user-name,pipeline-fun-unittest-user-password
+
 - task: SqlAzureDacpacDeployment@1
   displayName: 'Deploy unit test database'
   inputs:
-    azureSubscription: 'Azure-Pipeline-Fun-rg - Azure Service Endpoint'
+    azureSubscription: $(azureSubscription)
     ServerName: 'jeff-vera-discovery.database.windows.net'
     DatabaseName: TestDb
-    SqlUsername: delete_me
-    SqlPassword: randomness!@#456
+    SqlUsername: $(pipeline-fun-unittest-user-name)
+    SqlPassword: $(pipeline-fun-unittest-user-password)
     DacpacFile: '.\tests\TestDb\bin\$(buildConfiguration)\TestDb.dacpac'
 
 - script: >
