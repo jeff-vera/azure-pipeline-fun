@@ -28,7 +28,6 @@ steps:
     command: restore
     projects: '$(restoreBuildProjects)'
 
-
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
@@ -36,6 +35,18 @@ steps:
 
     arguments: '--configuration $(buildConfiguration)'
 
+- task: DotNetCoreCLI@2
+  displayName: restore database projects
+  inputs:
+    command: restore
+    projects: 'src/**/*.sqlproj'
+
+- task: DotNetCoreCLI@2
+  displayName: build database projects
+  inputs:
+    projects: 'src/**/*.sqlproj'
+
+    arguments: '--configuration $(buildConfiguration)'
 - task: SqlAzureDacpacDeployment@1
   displayName: 'Deploy unit test database'
   inputs:
