@@ -62,12 +62,7 @@ steps:
   inputs:
     codeCoverageEnabled: True
     configuration: $(buildConfiguration)
-
-- task: PublishTestResults@2
-  displayName: Publish test results 
-  inputs:
-    testRunner: VSTest
-    testResultsFiles: '**/*.trx'
+    publishRunAttachments: true 
 
 - task: mspremier.BuildQualityChecks.QualityChecks-task.BuildQualityChecks@5
   displayName: Check build quality 
