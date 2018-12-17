@@ -19,6 +19,7 @@ namespace RefuseTests
         {
             IDictionary envValues = Environment.GetEnvironmentVariables();
 
+            Console.WriteLine("done getting env values, got {0} records", envValues.Count);
             foreach (DictionaryEntry e in envValues)
             {
                 Console.WriteLine("{0} = {1}", e.Key, e.Value);
