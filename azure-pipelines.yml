@@ -25,7 +25,7 @@ steps:
 
 - powershell: |
     Write-Host "##vso[task.setvariable variable=myVariable]some value" 
-    Write-Host "$env:aNewVariable = haha!"
+    Write-Host '$ENV:aNewVariable="haha!"'
     Write-Host "even more text!"
 
 - task: DotNetCoreCLI@2
