@@ -8,5 +8,7 @@ namespace Refuse
         {
             return a * b;
         }
+
+        
     }
 }
