@@ -25,6 +25,7 @@ steps:
 
 - powershell: |
     Write-Host "##vso[task.setvariable variable=myVariable]some value" 
+    Write-Host $env:AGENT_HOMEDIRECTORY
     Write-Host "even more text!"
 
 - task: DotNetCoreCLI@2
@@ -35,7 +36,7 @@ steps:
 
 - powershell: |
     Write-Host "my variable is $(myVariable)"
-    
+
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
