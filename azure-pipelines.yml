@@ -33,6 +33,9 @@ steps:
     command: restore
     projects: '$(restoreBuildProjects)'
 
+- powershell: |
+    Write-Host "my variable is $(myVariable)"
+    
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
