@@ -85,9 +85,9 @@ steps:
     Write-Host "my new env variable is $ENV:aNewVariable"
 
 - script: |
-    export OH_BOY="yeah"    
+    set OH_BOY "yeah"    
     dotnet test --logger trx .\tests\RefuseTests /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:Threshold=100 /p:ThresholdType=line 
-    echo $OH_BOY
+    echo %OH_BOY%
   displayName: 'Refuse tests'
 
 - task: PublishTestResults@2
