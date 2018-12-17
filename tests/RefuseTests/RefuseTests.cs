@@ -42,6 +42,12 @@ namespace RefuseTests
             result.Should().HaveCountGreaterThan(0);
         }
 
+        [Fact]
+        public void DumpEnvironmentVariables()
+        {
+            Console.WriteLine("test output here mofo");
+        }
+
         public void Dispose()
         {
             var r = new Refuse.Refuse();
