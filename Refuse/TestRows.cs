@@ -1,15 +1,20 @@
-﻿using System;
+﻿using Dapper.Contrib.Extensions;
+using System;
 using System.Data.SqlTypes;
 
 namespace Refuse
 {
-    public class TestRow
+    [Table("TestRows")]
+    public class TestRows
     {
-        public TestRow()
+        public TestRows()
         {
+            Id = 1;
             SomeDate = (DateTime)SqlDateTime.MinValue;
             SomeDateTime = (DateTime)SqlDateTime.MinValue;
             SomeNullableText = "some non-null text";
+            SomeText = "oh boy";
+            SomeMoney = 0.01M;
         }
 
         public int Id { get; set; }
