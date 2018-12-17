@@ -23,7 +23,8 @@ variables:
 
 steps:
 
-- powershell: Write-Host "some sample text" 
+- powershell: |
+    Write-Host "some sample text" 
 
 - task: DotNetCoreCLI@2
   displayName: Restore
