@@ -23,8 +23,8 @@ variables:
 
 steps:
 
-- script: |
-  echo "some sample text"
+- task: PowerShell@2
+  - powershell: Write-Host "some sample text" 
 
 - task: DotNetCoreCLI@2
   displayName: Restore
