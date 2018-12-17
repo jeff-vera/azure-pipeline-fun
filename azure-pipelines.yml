@@ -25,6 +25,7 @@ steps:
 
 - powershell: |
     Write-Host "some sample text" 
+    Write-Host "even more text!"
 
 - task: DotNetCoreCLI@2
   displayName: Restore
