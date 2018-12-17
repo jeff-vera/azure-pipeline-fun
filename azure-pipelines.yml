@@ -27,6 +27,7 @@ steps:
     Write-Host "##vso[task.setvariable variable=myVariable]some value" 
     $ENV:aNewVariable="haha!"
     Write-Host "even more text!"
+    Write-Host "my new env variable is $ENV:aNewVariable"
 
 - task: DotNetCoreCLI@2
   displayName: Restore
