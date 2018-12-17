@@ -24,7 +24,7 @@ variables:
 steps:
 
 - script: |
-  echo "##vso[task.setvariable variable=myVariable]abc123"
+  echo "some sample text"
 
 - task: DotNetCoreCLI@2
   displayName: Restore
