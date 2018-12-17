@@ -64,7 +64,7 @@ steps:
     /p:CoverletOutputFormat=cobertura 
     /p:Threshold=100 
     /p:ThresholdType=line 
-  displayName: 'Unit tests'
+  displayName: 'Garbage tests'
 
 - script: >
     dotnet test --logger trx .\tests\WasteTests
@@ -72,7 +72,15 @@ steps:
     /p:CoverletOutputFormat=cobertura 
     /p:Threshold=100 
     /p:ThresholdType=line 
-  displayName: 'Unit tests'
+  displayName: 'Waste tests'
+
+- script: >
+    dotnet test --logger trx .\tests\RefuseTests
+    /p:CollectCoverage=true 
+    /p:CoverletOutputFormat=cobertura 
+    /p:Threshold=100 
+    /p:ThresholdType=line 
+  displayName: 'Refuse tests'
 
 - task: PublishTestResults@2
   displayName: Publish test results 
