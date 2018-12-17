@@ -16,6 +16,8 @@ namespace RefuseTests
 
         public RefuseTests()
         {
+            Console.WriteLine("test output here mofo");
+
             var r = new Refuse.Refuse();
 
             var row = new TestRows();
@@ -40,12 +42,6 @@ namespace RefuseTests
 
             result.Should().NotBeNull();
             result.Should().HaveCountGreaterThan(0);
-        }
-
-        [Fact]
-        public void DumpEnvironmentVariables()
-        {
-            Console.WriteLine("test output here mofo");
         }
 
         public void Dispose()
