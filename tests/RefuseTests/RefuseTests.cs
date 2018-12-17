@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Refuse;
 using Xunit;
+using System.Collections;
 
 namespace RefuseTests
 {
@@ -16,6 +17,13 @@ namespace RefuseTests
 
         public RefuseTests()
         {
+            IDictionary envValues = Environment.GetEnvironmentVariables();
+
+            foreach (DictionaryEntry e in envValues)
+            {
+                Console.WriteLine("{0} = {1}", e.Key, e.Value);
+            }
+
             Console.WriteLine("test output here mofo");
 
             var r = new Refuse.Refuse();
