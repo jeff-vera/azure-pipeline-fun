@@ -29,6 +29,8 @@ namespace RefuseTests
                 ConnString = BuildConnectionStringForLocal();
             }
 
+            Console.WriteLine(ConnString);
+
             var r = new Refuse.Refuse();
 
             var row = new TestRows();
