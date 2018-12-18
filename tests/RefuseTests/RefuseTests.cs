@@ -39,9 +39,8 @@ namespace RefuseTests
         private string BuildConnectionStringForPipeline(string userName, string password)
         {
             
-            return String.Format(@"Data Source=;
-                                    Initial Catalog=jeff-vera-discovery.database.windows.net;
-                                    Integrated Security=False,
+            return String.Format(@"Data Source=jeff-vera-discovery.database.windows.net;
+                                    Initial Catalog=TestDb;,
                                     User Id={0};
                                     Password={1}", userName, password);
         }
