@@ -15,12 +15,13 @@ namespace RefuseTests
 
         public RefuseTests()
         {
+            var userName = Environment.GetEnvironmentVariable("unitTestDbUser");
             var password = Environment.GetEnvironmentVariable("unitTestDbPassword");
 
-            if (password != null && password.Length > 0)
+            if (userName != null && userName.Length > 0)
             {
                 Console.WriteLine("building connection string for pipeline");
-                ConnString = BuildConnectionStringForPipeline(password);
+                ConnString = BuildConnectionStringForPipeline(userName, password);
             }
             else
             {
@@ -37,12 +38,12 @@ namespace RefuseTests
             _idToTest = r.InsertRow(row, ConnString);
         }
 
-        private string BuildConnectionStringForPipeline(string password)
+        private string BuildConnectionStringForPipeline(string userName, string password)
         {            
             return String.Format(@"Data Source=jeff-vera-discovery.database.windows.net;
                                     Database=TestDb;
-                                    User Id=holyhellbatman;
-                                    Password={0}", password);
+                                    User Id={0};
+                                    Password={1}", userName, password);
         }
 
         private string BuildConnectionStringForLocal()
