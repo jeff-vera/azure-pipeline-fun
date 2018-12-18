@@ -5,6 +5,7 @@ using System.Linq;
 using Refuse;
 using Xunit;
 using System.Collections;
+using System.Reflection.PortableExecutable;
 
 namespace RefuseTests
 {
@@ -17,14 +18,10 @@ namespace RefuseTests
 
         public RefuseTests()
         {
-            IDictionary envValues = Environment.GetEnvironmentVariables();
+            var userName = Environment.GetEnvironmentVariable("unitTestDbUser");
+            var password = Environment.GetEnvironmentVariable("unitTestDbPassword");
 
-            Console.WriteLine("done getting env values, got {0} records", envValues.Count);
-            foreach (DictionaryEntry e in envValues)
-            {
-                Console.WriteLine("{0} = {1}", e.Key, e.Value);
-            }
-
+            Console.WriteLine("user name: {0}", userName);
             Console.WriteLine("test output here mofo");
 
             var r = new Refuse.Refuse();

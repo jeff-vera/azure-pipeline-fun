@@ -78,16 +78,10 @@ steps:
     /p:ThresholdType=line 
   displayName: 'Waste tests'
 
-- powershell: |
-    Write-Host "##vso[task.setvariable variable=myVariable]some value" 
-    $ENV:aNewVariable="haha!"
-    Write-Host "even more text!"
-    Write-Host "my new env variable is $ENV:aNewVariable"
-
 - script: |
-    set tt=yeah
+    set unitTestDbUser=$(pipeline-fun-unittest-user-name)
+    set unitTestDbPassword=$(pipeline-fun-unittest-user-password)
     dotnet test --logger trx .\tests\RefuseTests /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:Threshold=100 /p:ThresholdType=line 
-    echo %tt%
   displayName: 'Refuse tests'
 
 - task: PublishTestResults@2
