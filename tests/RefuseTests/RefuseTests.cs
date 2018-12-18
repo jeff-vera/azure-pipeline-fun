@@ -40,7 +40,7 @@ namespace RefuseTests
         {
             
             return String.Format(@"Data Source=jeff-vera-discovery.database.windows.net;
-                                    Initial Catalog=TestDb;,
+                                    Initial Catalog=TestDb;
                                     User Id={0};
                                     Password={1}", userName, password);
         }
