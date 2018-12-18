@@ -43,7 +43,7 @@ namespace RefuseTests
             return String.Format(@"Data Source=jeff-vera-discovery.database.windows.net;
                                     Initial Catalog=TestDb;
                                     User Id=holyhellbatman;
-                                    Password={1}", password);
+                                    Password={0}", password);
         }
 
         private string BuildConnectionStringForLocal()
