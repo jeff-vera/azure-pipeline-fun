@@ -38,10 +38,9 @@ namespace RefuseTests
         }
 
         private string BuildConnectionStringForPipeline(string password)
-        {
-            
+        {            
             return String.Format(@"Data Source=jeff-vera-discovery.database.windows.net;
-                                    Initial Catalog=TestDb;
+                                    Database=TestDb;
                                     User Id=holyhellbatman;
                                     Password={0}", password);
         }
