@@ -19,12 +19,9 @@ namespace RefuseTests
         public RefuseTests()
         {
             var userName = Environment.GetEnvironmentVariable("unitTestDbUser");
-            var garbage = Environment.GetEnvironmentVariable("thisDoesNotExist");
             var password = Environment.GetEnvironmentVariable("unitTestDbPassword");
 
-            Console.WriteLine("user name: {0}", userName);
-            Console.WriteLine("user name: {0}", garbage);
-            Console.WriteLine("test output here mofo");
+            Console.WriteLine("user name length: {0}", userName.Length);
 
             var r = new Refuse.Refuse();
 
