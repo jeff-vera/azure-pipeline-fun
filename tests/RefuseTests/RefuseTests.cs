@@ -4,16 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Refuse;
 using Xunit;
-using System.Collections;
-using System.Reflection.PortableExecutable;
 
 namespace RefuseTests
 {
     public class RefuseTests : IDisposable
     {
-        private const string ConnString = @"Data Source=DADESKTOP\SQLEXPRESS;
-                                            Initial Catalog=TestDb;
-                                            Integrated Security=True;";
+        private string ConnString;
+
         private readonly int _idToTest;
 
         public RefuseTests()
@@ -21,13 +18,39 @@ namespace RefuseTests
             var userName = Environment.GetEnvironmentVariable("unitTestDbUser");
             var password = Environment.GetEnvironmentVariable("unitTestDbPassword");
 
-            Console.WriteLine("user name length: {0}", userName.Length);
+            if (userName != null && userName.Length > 0)
+            {
+                Console.WriteLine("building connection string for pipeline");
+                ConnString = BuildConnectionStringForPipeline(userName, password);
+            }
+            else
+            {
+                Console.WriteLine("building connection string for local");
+                ConnString = BuildConnectionStringForLocal();
+            }
 
             var r = new Refuse.Refuse();
 
             var row = new TestRows();
 
             _idToTest = r.InsertRow(row, ConnString);
+        }
+
+        private string BuildConnectionStringForPipeline(string userName, string password)
+        {
+            
+            return String.Format(@"Data Source=;
+                                    Initial Catalog=jeff-vera-discovery.database.windows.net;
+                                    Integrated Security=False,
+                                    User Id={0};
+                                    Password={1}", userName, password);
+        }
+
+        private string BuildConnectionStringForLocal()
+        {
+            return @"Data Source=DADESKTOP\SQLEXPRESS;
+                    Initial Catalog=TestDb;
+                    Integrated Security=True;";
         }
 
         [Fact]
