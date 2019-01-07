@@ -35,9 +35,6 @@ steps:
     projects: '$(restoreBuildProjects)'
     arguments: '--configuration $(buildConfiguration)'
 
-- powershell: |
-    dir -r | % { if ($_.PsIsContainer) { $_.FullName + "\" } else { $_.FullName } }
-    .\src\StubForDatabase\mayflower.exe --folder=".\src\StubForDatabase\migrations" --connection="Integrated Security=false;Initial Catalog=IntegrationTestDb;server=jeff-vera-discovery.database.windows.net;User ID=hilarious@jeff-vera-discovery;Password=;Encrypt=True"
 - task: MSBuild@1
   displayName: build unit test database
   inputs: 
@@ -50,6 +47,11 @@ steps:
     azureSubscription: $(azureSubscription)
     keyVaultName: jeffvera-dev-keyvault    
     secretsFilter: pipeline-fun-unittest-user-name,pipeline-fun-unittest-user-password
+
+- powershell: ^
+    .\src\StubForDatabase\mayflower.exe 
+    --folder=".\src\StubForDatabase\migrations" 
+    --connection="Integrated Security=false;Initial Catalog=IntegrationTestDb;server=jeff-vera-discovery.database.windows.net;User ID=$(pipeline-fun-unittest-user-name)@jeff-vera-discovery;Password=$(pipeline-fun-unittest-user-password);Encrypt=True"
 
 - task: SqlAzureDacpacDeployment@1
   displayName: 'Deploy unit test database'
