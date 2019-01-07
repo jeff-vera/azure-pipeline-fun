@@ -51,7 +51,7 @@ steps:
 - powershell: >
     .\src\StubForDatabase\mayflower.exe 
     --folder=".\src\StubForDatabase\migrations" 
-    --connection="server=tcp:jeff-vera-discovery.database.windows.net"
+    --connection="server=tcp:jeff-vera-discovery.database.windows.net,1433;Initial Catalog=IntegrationTestDb"
 
 - task: SqlAzureDacpacDeployment@1
   displayName: 'Deploy unit test database'
