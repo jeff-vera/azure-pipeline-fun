@@ -33,7 +33,7 @@ steps:
     Write-Host "my new env variable is $ENV:aNewVariable"
 
 - powershell: |
-    Write-Host "my new env variable is $ENV:aNewVariable"
+    Write-Host 
 
 - task: DotNetCoreCLI@2
   displayName: Build
