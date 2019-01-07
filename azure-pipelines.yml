@@ -51,7 +51,7 @@ steps:
 - powershell: >
     .\src\StubForDatabase\mayflower.exe 
     --folder=".\src\StubForDatabase\migrations" 
-    --connection="Integrated Security=false;Initial Catalog=STFU;server=jeff-vera-discovery.database.windows.net;User ID=$(pipeline-fun-unittest-user-name);Password=$(pipeline-fun-unittest-user-password);Encrypt=True"
+    --connection="Integrated Security=false;Initial Catalog=IntegrationTestDb;server=jeff-vera-discovery.database.windows.net;User ID=$(pipeline-fun-unittest-user-name);Password=$(pipeline-fun-unittest-user-password);Encrypt=True"
 
 - task: SqlAzureDacpacDeployment@1
   displayName: 'Deploy unit test database'
