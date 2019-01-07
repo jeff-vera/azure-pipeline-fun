@@ -8,5 +8,10 @@ namespace Waste
         {
             return x - y;
         }
+
+        public double PowerOf(int x, int y)
+        {
+            return Math.Pow(x, y);
+        }
     }
 }

@@ -111,7 +111,7 @@ steps:
     checkCoverage: true 
     coverageFailOption: fixed 
     coverageType: lines 
-    coverageThreshold: 70 
+    coverageThreshold: 10
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact'

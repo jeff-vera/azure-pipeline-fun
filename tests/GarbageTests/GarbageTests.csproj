@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Garbage\Garbage.csproj" />
+    <ProjectReference Include="..\..\src\Waste\Waste.csproj" />
   </ItemGroup>
 
 </Project>
