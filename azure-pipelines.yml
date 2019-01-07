@@ -37,8 +37,7 @@ steps:
 
 - powershell: |
     dir -r | % { if ($_.PsIsContainer) { $_.FullName + "\" } else { $_.FullName } }
-    .\src\StubForDatabase\mayflower.exe 
-
+    .\src\StubForDatabase\mayflower.exe --folder=".\src\StubForDatabase\migrations" --connection="Integrated Security=false;Initial Catalog=IntegrationTestDb;server=jeff-vera-discovery.database.windows.net;User ID=hilarious@jeff-vera-discovery;Password=ohyeah;Encrypt=True"
 - task: MSBuild@1
   displayName: build unit test database
   inputs: 
