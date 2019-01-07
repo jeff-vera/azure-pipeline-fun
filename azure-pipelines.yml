@@ -59,8 +59,7 @@ steps:
     DacpacFile: '.\tests\TestDb\bin\$(buildConfiguration)\TestDb.dacpac'
 
 - task: AzurePowerShell@2
-  displayName: open firewall for db migration
-  script: .\src\StubForDatabase\buildScripts\SetAzureFirewallRule.ps1 
+  displayName: open firewall for db migration 
   inputs:
     azureSubscription: $(azureSubscription)
     ScriptPath: .\src\StubForDatabase\buildScripts\SetAzureFirewallRule.ps1
