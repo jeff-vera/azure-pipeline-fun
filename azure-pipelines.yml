@@ -48,7 +48,7 @@ steps:
     keyVaultName: jeffvera-dev-keyvault    
     secretsFilter: pipeline-fun-unittest-user-name,pipeline-fun-unittest-user-password
 
-- powershell: ^
+- powershell: >
     .\src\StubForDatabase\mayflower.exe 
     --folder=".\src\StubForDatabase\migrations" 
     --connection="Integrated Security=false;Initial Catalog=IntegrationTestDb;server=jeff-vera-discovery.database.windows.net;User ID=$(pipeline-fun-unittest-user-name)@jeff-vera-discovery;Password=$(pipeline-fun-unittest-user-password);Encrypt=True"
