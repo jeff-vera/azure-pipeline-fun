@@ -62,6 +62,9 @@ steps:
     SqlPassword: $(pipeline-fun-unittest-user-password)
     DacpacFile: '.\tests\TestDb\bin\$(buildConfiguration)\TestDb.dacpac'
 
+- powershell: >
+  mayflower
+  
 - script: >
     dotnet test --logger trx .\tests\GarbageTests
     /p:CollectCoverage=true 
