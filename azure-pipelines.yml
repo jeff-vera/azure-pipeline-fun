@@ -66,22 +66,18 @@ steps:
     dotnet test --logger trx .\tests\GarbageTests
     /p:CollectCoverage=true 
     /p:CoverletOutputFormat=cobertura 
-    /p:Threshold=100 
-    /p:ThresholdType=line 
   displayName: 'Garbage tests'
 
 - script: >
     dotnet test --logger trx .\tests\WasteTests
     /p:CollectCoverage=true 
     /p:CoverletOutputFormat=cobertura 
-    /p:Threshold=100 
-    /p:ThresholdType=line 
   displayName: 'Waste tests'
 
 - script: |
     set unitTestDbUser=$(pipeline-fun-unittest-user-name)
     set unitTestDbPassword=$(pipeline-fun-unittest-user-password)
-    dotnet test --logger trx .\tests\RefuseTests /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:Threshold=100 /p:ThresholdType=line 
+    dotnet test --logger trx .\tests\RefuseTests /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura  
   displayName: 'Refuse tests'
 
 - task: PublishTestResults@2
