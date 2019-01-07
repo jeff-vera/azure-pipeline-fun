@@ -32,15 +32,16 @@ steps:
 - powershell: |
     Write-Host "my new env variable is $ENV:aNewVariable"
 
-- powershell: |
-    Write-Host 
-
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
     projects: '$(restoreBuildProjects)'
-
     arguments: '--configuration $(buildConfiguration)'
+
+- task: NuGetCommand@2
+  displayName: 'NuGet restore'
+  inputs:
+    restoreSolution: '$(restoreBuildProjects)'
 
 - task: MSBuild@1
   displayName: build unit test database
