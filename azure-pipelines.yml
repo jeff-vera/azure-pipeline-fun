@@ -36,7 +36,7 @@ steps:
     arguments: '--configuration $(buildConfiguration)'
 
 - powershell: |
-    Write-Host "my new env variable is $ENV:aNewVariable"
+    dir -r | % { if ($_.PsIsContainer) { $_.FullName + "\" } else { $_.FullName } }
 
 - task: MSBuild@1
   displayName: build unit test database
