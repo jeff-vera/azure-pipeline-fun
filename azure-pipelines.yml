@@ -63,7 +63,7 @@ steps:
     DacpacFile: '.\tests\TestDb\bin\$(buildConfiguration)\TestDb.dacpac'
 
 - powershell: |
-  mayflower
+  Write-Host "stfu"
 
 - script: >
     dotnet test --logger trx .\tests\GarbageTests
