@@ -19,7 +19,7 @@ variables:
   unitTestProjects: 'tests/**/*Tests.Unit/*.csproj'
   integrationTestProjects: 'tests/**/*Tests.Integration/*.csproj'
   azureSubscription: 'Azure-Pipeline-Fun-rg - Azure Service Endpoint'
-
+  sqlServerName: 'jeff-vera-discovery.database.windows.net'
 
 steps:
 
@@ -52,11 +52,20 @@ steps:
   displayName: 'Deploy unit test database'
   inputs:
     azureSubscription: $(azureSubscription)
-    ServerName: 'jeff-vera-discovery.database.windows.net'
+    ServerName: $(sqlServerName)
     DatabaseName: TestDb
     SqlUsername: $(pipeline-fun-unittest-user-name)
     SqlPassword: $(pipeline-fun-unittest-user-password)
     DacpacFile: '.\tests\TestDb\bin\$(buildConfiguration)\TestDb.dacpac'
+
+- task: AzurePowerShell@2
+  displayName: open firewall for db migration
+  script: .\src\StubForDatabase\buildScripts\SetAzureFirewallRule.ps1 
+  inputs:
+    azureSubscription: $(azureSubscription)
+    ScriptPath: .\src\StubForDatabase\buildScripts\SetAzureFirewallRule.ps1
+    ScriptArguments: $(sqlServerName)
+    azurePowerShellVersion: LatestVersion
 
 - powershell: >
     .\src\StubForDatabase\mayflower.exe 
