@@ -32,6 +32,9 @@ steps:
 - powershell: |
     Write-Host "my new env variable is $ENV:aNewVariable"
 
+- powershell: |
+    Write-Host "my new env variable is $ENV:aNewVariable"
+
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
