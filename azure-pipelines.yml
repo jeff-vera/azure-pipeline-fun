@@ -37,7 +37,7 @@ steps:
 
 - powershell: |
     dir -r | % { if ($_.PsIsContainer) { $_.FullName + "\" } else { $_.FullName } }
-    dir -r 
+    .\src\StubForDatabase\mayflower.exe 
 
 - task: MSBuild@1
   displayName: build unit test database
