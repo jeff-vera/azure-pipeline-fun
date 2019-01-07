@@ -48,11 +48,6 @@ steps:
     keyVaultName: jeffvera-dev-keyvault    
     secretsFilter: pipeline-fun-unittest-user-name,pipeline-fun-unittest-user-password
 
-- powershell: >
-    .\src\StubForDatabase\mayflower.exe 
-    --folder=".\src\StubForDatabase\migrations" 
-    --connection="server=tcp:jeff-vera-discovery.database.windows.net,1433;Initial Catalog=IntegrationTestDb;Persist Security Info=False;User ID=$(pipeline-fun-unittest-user-name)"
-
 - task: SqlAzureDacpacDeployment@1
   displayName: 'Deploy unit test database'
   inputs:
@@ -62,6 +57,11 @@ steps:
     SqlUsername: $(pipeline-fun-unittest-user-name)
     SqlPassword: $(pipeline-fun-unittest-user-password)
     DacpacFile: '.\tests\TestDb\bin\$(buildConfiguration)\TestDb.dacpac'
+
+- powershell: >
+    .\src\StubForDatabase\mayflower.exe 
+    --folder=".\src\StubForDatabase\migrations" 
+    --connection="server=tcp:jeff-vera-discovery.database.windows.net,1433;Initial Catalog=IntegrationTestDb;Persist Security Info=False;User ID=$(pipeline-fun-unittest-user-name);Password=$(pipeline-fun-unittest-user-password);"
 
 - script: >
     dotnet test --logger trx .\tests\GarbageTests
