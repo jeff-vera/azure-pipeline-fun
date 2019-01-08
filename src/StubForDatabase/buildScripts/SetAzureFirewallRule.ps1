@@ -1,3 +1,5 @@
+Connect-AzureRmAccount
+
 [CmdletBinding(DefaultParameterSetName = 'None')]
 param
 (
