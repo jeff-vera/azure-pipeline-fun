@@ -16,7 +16,7 @@ function Update-AzureSQLServerFirewallRule{
   Set-AzureSqlDatabaseServerFirewallRule -StartIPAddress $agentIp -EndIPAddress $agentIp -RuleName $AzureFirewallName -ServerName $ServerName
 }
 
-Select-AzureSubscription -Default "AzureRmConnection"
+Select-AzureSubscription -Default -SubscriptionName "AzureRmConnection"
 
 If ((Get-AzureSqlDatabaseServerFirewallRule -ServerName $ServerName -RuleName $AzureFirewallName -ErrorAction SilentlyContinue) -eq $null)
 {
