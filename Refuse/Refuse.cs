@@ -23,7 +23,7 @@ namespace Refuse
 
         }
 
-        public int InsertRow(TestRows row, string connString)
+        public int? InsertRow(TestRows row, string connString)
         {
             SqlConnection conn = null;
             using (conn = new SqlConnection(connString))

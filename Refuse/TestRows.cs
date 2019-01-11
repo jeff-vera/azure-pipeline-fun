@@ -9,7 +9,6 @@ namespace Refuse
     {
         public TestRows()
         {
-            Id = 1;
             SomeDate = (DateTime)SqlDateTime.MinValue;
             SomeDateTime = (DateTime)SqlDateTime.MinValue;
             SomeNullableText = "some non-null text";
@@ -17,7 +16,8 @@ namespace Refuse
             SomeMoney = 0.01M;
         }
 
-        public int Id { get; set; }
+        [ExplicitKey]
+        public int? Id { get; set; }
         public string SomeText { get; set; }
         public bool SomeBit { get; set; }
         public DateTime SomeDate { get; set; }
