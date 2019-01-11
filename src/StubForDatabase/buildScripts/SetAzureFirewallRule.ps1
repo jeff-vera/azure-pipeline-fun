@@ -17,6 +17,7 @@ function Update-AzureSQLServerFirewallRule{
 }
 
 Select-AzureRmSubscription -SubscriptionId "9529b43c-033a-435e-b1b3-d54026dbea71"
+(Get-AzureRmContext).Subscription 
 
 If ((Get-AzureSqlDatabaseServerFirewallRule -ServerName $ServerName -RuleName $AzureFirewallName -ErrorAction SilentlyContinue) -eq $null)
 {
