@@ -18,7 +18,7 @@ variables:
   restoreBuildProjects: 'src/**/*.csproj'
   unitTestProjects: 'tests/**/*Tests.Unit/*.csproj'
   integrationTestProjects: 'tests/**/*Tests.Integration/*.csproj'
-  azureSubscription: 'azure-pipeline-notsofun-rg - Service Endpoint'
+  azureSubscription: 'AzureRmConnection'
   sqlServerName: 'jeff-vera-discovery.database.windows.net'
 
 steps:
