@@ -20,6 +20,7 @@ variables:
   integrationTestProjects: 'tests/**/*Tests.Integration/*.csproj'
   azureSubscription: 'AzureRmConnection'
   sqlServerName: 'jeff-vera-discovery.database.windows.net'
+  shortSqlServerName: 'jeff-vera-discovery'
 
 steps:
 
@@ -28,7 +29,7 @@ steps:
   inputs:
     azureSubscription: $(azureSubscription)
     ScriptPath: .\src\StubForDatabase\buildScripts\SetAzureFirewallRule.ps1
-    ScriptArguments: $(sqlServerName)
+    ScriptArguments: $(shortSqlServerName)
     azurePowerShellVersion: LatestVersion
 
 
