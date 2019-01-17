@@ -3,6 +3,7 @@ param
 (
   [String] [Parameter(Mandatory = $true)] $ServerName,
   [String] $AzureFirewallName = "AzureWebAppFirewall"
+  [String] $ResourceGroupName = "VstsRG-jeff-vera-3b16"
 )
 
 $ErrorActionPreference = 'Stop'
@@ -12,11 +13,11 @@ function New-AzureSQLServerFirewallRule {
   echo $agentIP
   echo $AzureFirewallName
   echo $ServerName
-  New-AzureRmSqlServerFirewallRule -StartIPAddress $agentIp -EndIPAddress $agentIp -FirewallRuleName $AzureFirewallName -ServerName $ServerName
+  New-AzureRmSqlServerFirewallRule -ResourceGroupName $ResourceGroupName -StartIPAddress $agentIp -EndIPAddress $agentIp -FirewallRuleName $AzureFirewallName -ServerName $ServerName
 }
 function Update-AzureSQLServerFirewallRule{
   $agentIP= (New-Object net.webclient).downloadstring("http://checkip.dyndns.com") -replace "[^\d\.]"
-  Set-AzureRmSqlServerFirewallRule -StartIPAddress $agentIp -EndIPAddress $agentIp -FirewallRuleName $AzureFirewallName -ServerName $ServerName
+  Set-AzureRmSqlServerFirewallRule -ResourceGroupName $ResourceGroupName -StartIPAddress $agentIp -EndIPAddress $agentIp -FirewallRuleName $AzureFirewallName -ServerName $ServerName
 }
 
 Select-AzureRmSubscription -SubscriptionId "9529b43c-033a-435e-b1b3-d54026dbea71"
