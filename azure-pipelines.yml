@@ -23,6 +23,15 @@ variables:
 
 steps:
 
+- task: AzurePowerShell@2
+  displayName: open firewall for db migration 
+  inputs:
+    azureSubscription: $(azureSubscription)
+    ScriptPath: .\src\StubForDatabase\buildScripts\SetAzureFirewallRule.ps1
+    ScriptArguments: $(sqlServerName)
+    azurePowerShellVersion: LatestVersion
+
+
 - task: DotNetCoreCLI@2
   displayName: Restore
   inputs:
@@ -57,14 +66,6 @@ steps:
     SqlUsername: $(pipeline-fun-unittest-user-name)
     SqlPassword: $(pipeline-fun-unittest-user-password)
     DacpacFile: '.\tests\TestDb\bin\$(buildConfiguration)\TestDb.dacpac'
-
-- task: AzurePowerShell@2
-  displayName: open firewall for db migration 
-  inputs:
-    azureSubscription: $(azureSubscription)
-    ScriptPath: .\src\StubForDatabase\buildScripts\SetAzureFirewallRule.ps1
-    ScriptArguments: $(sqlServerName)
-    azurePowerShellVersion: LatestVersion
 
 - powershell: >
     .\src\StubForDatabase\mayflower.exe 
