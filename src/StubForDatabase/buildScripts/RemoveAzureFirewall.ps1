@@ -8,7 +8,7 @@ param
 
 $ErrorActionPreference = 'Stop'
 
-If ((Get-AzureRmSqlDatabaseServerFirewallRule -ResourceGroupName $ResourceGroupName -ServerName $ServerName))
+If ((Get-AzureRmSqlServerFirewallRule -ResourceGroupName $ResourceGroupName -ServerName $ServerName))
 {
-  Remove-AzureRmSqlDatabaseServerFirewallRule -FirewallRuleName $AzureFirewallName -ResourceGroupName $ResourceGroupName -ServerName $ServerName
+  Remove-AzureRmSqlServerFirewallRule -FirewallRuleName $AzureFirewallName -ResourceGroupName $ResourceGroupName -ServerName $ServerName
 }
