@@ -63,7 +63,7 @@ steps:
   displayName: close firewall opened for db migration  
   inputs:
     azureSubscription: $(azureSubscription)
-    ScriptPath: .\src\StubForDatabase\buildScripts\RemoveAzureFirewallRule.ps1
+    ScriptPath: .\src\StubForDatabase\buildScripts\RemoveAzureFirewall.ps1
     ScriptArguments: $(shortSqlServerName)
     azurePowerShellVersion: LatestVersion
 
@@ -84,7 +84,7 @@ steps:
   displayName: close firewall opened for db migration  
   inputs:
     azureSubscription: $(azureSubscription)
-    ScriptPath: .\src\StubForDatabase\buildScripts\RemoveAzureFirewallRule.ps1
+    ScriptPath: .\src\StubForDatabase\buildScripts\RemoveAzureFirewall.ps1
     ScriptArguments: $(shortSqlServerName)
     azurePowerShellVersion: LatestVersion
 
