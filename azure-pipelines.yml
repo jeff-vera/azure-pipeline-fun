@@ -59,34 +59,10 @@ steps:
     SqlPassword: $(pipeline-fun-unittest-user-password)
     DacpacFile: '.\tests\TestDb\bin\$(buildConfiguration)\TestDb.dacpac'
 
-- task: AzurePowerShell@2
-  displayName: close firewall opened for db migration  
-  inputs:
-    azureSubscription: $(azureSubscription)
-    ScriptPath: .\src\StubForDatabase\buildScripts\RemoveAzureFirewall.ps1
-    ScriptArguments: $(shortSqlServerName)
-    azurePowerShellVersion: LatestVersion
-
-- task: AzurePowerShell@2
-  displayName: open firewall for db migration 
-  inputs:
-    azureSubscription: $(azureSubscription)
-    ScriptPath: .\src\StubForDatabase\buildScripts\SetAzureFirewallRule.ps1
-    ScriptArguments: $(shortSqlServerName)
-    azurePowerShellVersion: LatestVersion
-
 - powershell: >
     .\src\StubForDatabase\mayflower.exe 
     --folder=".\src\StubForDatabase\migrations" 
     --connection="server=tcp:jeff-vera-discovery.database.windows.net,1433;Initial Catalog=IntegrationTestDb;Persist Security Info=False;User ID=$(pipeline-fun-unittest-user-name);Password=$(pipeline-fun-unittest-user-password);"
-
-- task: AzurePowerShell@2
-  displayName: close firewall opened for db migration  
-  inputs:
-    azureSubscription: $(azureSubscription)
-    ScriptPath: .\src\StubForDatabase\buildScripts\RemoveAzureFirewall.ps1
-    ScriptArguments: $(shortSqlServerName)
-    azurePowerShellVersion: LatestVersion
 
 - script: >
     dotnet test --logger trx .\tests\GarbageTests
