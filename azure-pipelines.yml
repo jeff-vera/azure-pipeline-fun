@@ -67,8 +67,7 @@ steps:
 - task: Powershell@2
   inputs:
     targetType: inline
-    script: .\src\StubForDatabase\mayflower.exe 
-    arguments: --folder=".\src\StubForDatabase\migrations"
+    script: .\src\StubForDatabase\mayflower.exe --folder=".\src\StubForDatabase\migrations" --connection="server=tcp:jeff-vera-discovery.database.windows.net,1433;Initial Catalog=IntegrationTestDb;Persist Security Info=False;User ID=$(pipeline-fun-unittest-user-name);Password=$(pipeline-fun-unittest-user-password);"
 
 - script: >
     dotnet test --logger trx .\tests\GarbageTests
