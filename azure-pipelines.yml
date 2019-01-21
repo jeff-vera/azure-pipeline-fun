@@ -36,12 +36,12 @@ steps:
     projects: '$(restoreBuildProjects)'
     arguments: '--configuration $(buildConfiguration)'
 
-- task: MSBuild@1
-  displayName: build unit test database
-  inputs: 
-    solution: tests/TestDb/TestDb.sqlproj
-    createLogFile: true 
-    configuration: Release 
+# - task: MSBuild@1
+#   displayName: build unit test database
+#   inputs: 
+#     solution: tests/TestDb/TestDb.sqlproj
+#     createLogFile: true 
+#     configuration: Release 
 
 - task: AzureKeyVault@1
   inputs:
@@ -61,7 +61,7 @@ steps:
 
 - task: Powershell@2
   inputs:
-    condition: 
+    condition: false
     targetType: inline
     script: .\src\StubForDatabase\mayflower.exe --folder=".\src\StubForDatabase\migrations" --connection="server=tcp:jeff-vera-discovery.database.windows.net,1433;Initial Catalog=IntegrationTestDb;Persist Security Info=False;User ID=$(pipeline-fun-unittest-user-name);Password=$(pipeline-fun-unittest-user-password);"
 
