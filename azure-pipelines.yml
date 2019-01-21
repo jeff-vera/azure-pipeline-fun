@@ -36,12 +36,12 @@ steps:
     projects: '$(restoreBuildProjects)'
     arguments: '--configuration $(buildConfiguration)'
 
-- task: MSBuild@1
-  displayName: build unit test database
-  inputs: 
-    solution: tests/TestDb/TestDb.sqlproj
-    createLogFile: true 
-    configuration: Release 
+# - task: MSBuild@1
+#   displayName: build unit test database
+#   inputs: 
+#     solution: tests/TestDb/TestDb.sqlproj
+#     createLogFile: true 
+#     configuration: Release 
 
 - task: AzureKeyVault@1
   inputs:
@@ -60,8 +60,14 @@ steps:
 #     DacpacFile: '.\tests\TestDb\bin\$(buildConfiguration)\TestDb.dacpac'
 
 - task: Powershell@2
+  condition: and( 
+              succeeded(),  
+              or( 
+                eq(variables['Build.SourceBranchName'],'master'), 
+                eq(variables['Build.SourceBranchName'], 'dev') 
+                ) 
+              ) 
   inputs:
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'],'refs/heads/master'))
     targetType: inline
     script: .\src\StubForDatabase\mayflower.exe --folder=".\src\StubForDatabase\migrations" --connection="server=tcp:jeff-vera-discovery.database.windows.net,1433;Initial Catalog=IntegrationTestDb;Persist Security Info=False;User ID=$(pipeline-fun-unittest-user-name);Password=$(pipeline-fun-unittest-user-password);"
 
