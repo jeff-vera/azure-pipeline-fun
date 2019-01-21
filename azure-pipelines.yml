@@ -9,7 +9,7 @@ pool:
 
 trigger:
 - master
-- develop
+- dev
 - feature/*
 
 variables:
