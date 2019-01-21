@@ -37,12 +37,12 @@ steps:
     projects: '$(restoreBuildProjects)'
     arguments: '--configuration $(buildConfiguration)'
 
-# - task: MSBuild@1
-#   displayName: build unit test database
-#   inputs: 
-#     solution: tests/TestDb/TestDb.sqlproj
-#     createLogFile: true 
-#     configuration: Release 
+- task: MSBuild@1
+  displayName: build unit test database
+  inputs: 
+    solution: tests/TestDb/TestDb.sqlproj
+    createLogFile: true 
+    configuration: Release 
 
 - task: AzureKeyVault@1
   inputs:
@@ -50,15 +50,15 @@ steps:
     keyVaultName: jeffvera-dev-keyvault    
     secretsFilter: pipeline-fun-unittest-user-name,pipeline-fun-unittest-user-password
 
-# - task: SqlAzureDacpacDeployment@1
-#   displayName: 'Deploy unit test database'
-#   inputs:
-#     azureSubscription: $(azureSubscription)
-#     ServerName: $(sqlServerName)
-#     DatabaseName: TestDb
-#     SqlUsername: $(pipeline-fun-unittest-user-name)
-#     SqlPassword: $(pipeline-fun-unittest-user-password)
-#     DacpacFile: '.\tests\TestDb\bin\$(buildConfiguration)\TestDb.dacpac'
+- task: SqlAzureDacpacDeployment@1
+  displayName: 'Deploy unit test database'
+  inputs:
+    azureSubscription: $(azureSubscription)
+    ServerName: $(sqlServerName)
+    DatabaseName: TestDb
+    SqlUsername: $(pipeline-fun-unittest-user-name)
+    SqlPassword: $(pipeline-fun-unittest-user-password)
+    DacpacFile: '.\tests\TestDb\bin\$(buildConfiguration)\TestDb.dacpac'
 
 - task: Powershell@2
   condition: and( 
