@@ -61,7 +61,7 @@ steps:
 #     DacpacFile: '.\tests\TestDb\bin\$(buildConfiguration)\TestDb.dacpac'
 
 - task: Powershell@2
-  # condition: and(succeeded(), and( or( eq(variables['Build.SourceBranch'],'refs/heads/master'), eq(variables[])
+  condition: and(succeeded(), eq($(sourceBranch),'refs/heads/master'))
   inputs:
     targetType: inline
     script: .\src\StubForDatabase\mayflower.exe --folder=".\src\StubForDatabase\migrations" --connection="server=tcp:jeff-vera-discovery.database.windows.net,1433;Initial Catalog=IntegrationTestDb;Persist Security Info=False;User ID=$(pipeline-fun-unittest-user-name);Password=$(pipeline-fun-unittest-user-password);"
