@@ -68,6 +68,7 @@ steps:
                 eq(variables['Build.SourceBranchName'], 'dev') 
                 ) 
               ) 
+  displayName: run migrations 
   inputs:
     targetType: inline
     script: .\src\StubForDatabase\mayflower.exe --folder=".\src\StubForDatabase\migrations" --connection="server=tcp:jeff-vera-discovery.database.windows.net,1433;Initial Catalog=IntegrationTestDb;Persist Security Info=False;User ID=$(pipeline-fun-unittest-user-name);Password=$(pipeline-fun-unittest-user-password);"
