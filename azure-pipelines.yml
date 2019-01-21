@@ -21,7 +21,6 @@ variables:
   azureSubscription: 'AzureRmConnection'
   sqlServerName: 'jeff-vera-discovery.database.windows.net'
   shortSqlServerName: 'jeff-vera-discovery'
-  sourceBranch: variables['Build.SourceBranch']
 
 steps:
 
@@ -61,7 +60,7 @@ steps:
 #     DacpacFile: '.\tests\TestDb\bin\$(buildConfiguration)\TestDb.dacpac'
 
 - task: Powershell@2
-  condition: and(succeeded(), eq($(sourceBranch),'refs/heads/master'))
+  condition: and(succeeded(), eq(variables['Build.SourceBranchName'],'master'))
   inputs:
     targetType: inline
     script: .\src\StubForDatabase\mayflower.exe --folder=".\src\StubForDatabase\migrations" --connection="server=tcp:jeff-vera-discovery.database.windows.net,1433;Initial Catalog=IntegrationTestDb;Persist Security Info=False;User ID=$(pipeline-fun-unittest-user-name);Password=$(pipeline-fun-unittest-user-password);"
