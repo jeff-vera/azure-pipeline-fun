@@ -67,7 +67,7 @@ jobs:
         DacpacFile: '.\tests\TestDb\bin\$(buildConfiguration)\TestDb.dacpac'
 
 
-  - job: migrations
+  - job: migration that should fail
     pool: 
         vmImage: 'VS2017-Win2016'
 
@@ -79,6 +79,32 @@ jobs:
         keyVaultName: jeffvera-dev-keyvault    
         secretsFilter: pipeline-fun-unittest-user-name,pipeline-fun-unittest-user-password
         
+    - task: Powershell@2
+      condition: and( 
+                  succeeded(),  
+                  or( 
+                    eq(variables['Build.SourceBranchName'],'master'), 
+                    eq(variables['Build.SourceBranchName'], 'dev') 
+                    ) 
+                  ) 
+      displayName: run migrations 
+      inputs:
+        targetType: inline
+        script: .\src\StubForDatabase\mayflower.exe --folder=".\src\StubForDatabase\migrations" --connection="server=tcp:jeff-vera-shouldBeDiscovery.database.windows.net,1433;Initial Catalog=IntegrationTestDb;Persist Security Info=False;User ID=$(pipeline-fun-unittest-user-name);Password=$(pipeline-fun-unittest-user-password);"
+
+
+  - job: migration that succeeds
+    pool: 
+        vmImage: 'VS2017-Win2016'
+
+    steps:
+
+    - task: AzureKeyVault@1
+      inputs:
+        azureSubscription: $(azureSubscription)
+        keyVaultName: jeffvera-dev-keyvault    
+        secretsFilter: pipeline-fun-unittest-user-name,pipeline-fun-unittest-user-password
+
     - task: Powershell@2
       condition: and( 
                   succeeded(),  
