@@ -25,7 +25,7 @@ variables:
 
 jobs:
 
-  - job: startup
+  - job: build
     pool: 
       vmImage: 'VS2017-Win2016'
 
@@ -66,6 +66,11 @@ jobs:
         SqlPassword: $(pipeline-fun-unittest-user-password)
         DacpacFile: '.\tests\TestDb\bin\$(buildConfiguration)\TestDb.dacpac'
 
+
+  - job: migrations
+    pool: 
+        vmImage: 'VS2017-Win2016'
+
     - task: Powershell@2
       condition: and( 
                   succeeded(),  
@@ -79,12 +84,13 @@ jobs:
         targetType: inline
         script: .\src\StubForDatabase\mayflower.exe --folder=".\src\StubForDatabase\migrations" --connection="server=tcp:jeff-vera-discovery.database.windows.net,1433;Initial Catalog=IntegrationTestDb;Persist Security Info=False;User ID=$(pipeline-fun-unittest-user-name);Password=$(pipeline-fun-unittest-user-password);"
 
-  - job: nextOne
+
+  - job: tests
     pool:
       vmImage: 'VS2017-Win2016'
 
     steps:  
-      
+
     - script: >
         dotnet test --logger trx .\tests\GarbageTests
         /p:CollectCoverage=true 
