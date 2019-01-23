@@ -67,7 +67,7 @@ jobs:
         DacpacFile: '.\tests\TestDb\bin\$(buildConfiguration)\TestDb.dacpac'
 
 
-  - job: migration that should fail
+  - job: migrationThatFails
     pool: 
         vmImage: 'VS2017-Win2016'
 
@@ -93,7 +93,7 @@ jobs:
         script: .\src\StubForDatabase\mayflower.exe --folder=".\src\StubForDatabase\migrations" --connection="server=tcp:jeff-vera-shouldBeDiscovery.database.windows.net,1433;Initial Catalog=IntegrationTestDb;Persist Security Info=False;User ID=$(pipeline-fun-unittest-user-name);Password=$(pipeline-fun-unittest-user-password);"
 
 
-  - job: migration that succeeds
+  - job: migrationThatSucceeds
     pool: 
         vmImage: 'VS2017-Win2016'
 
