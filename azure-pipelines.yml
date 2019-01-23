@@ -23,107 +23,111 @@ variables:
   sqlServerName: 'jeff-vera-discovery.database.windows.net'
   shortSqlServerName: 'jeff-vera-discovery'
 
-steps:
+jobs:
 
-- task: DotNetCoreCLI@2
-  displayName: Restore
-  inputs:
-    command: restore
-    projects: '$(restoreBuildProjects)'
+  - job: startup
 
-- task: DotNetCoreCLI@2
-  displayName: Build
-  inputs:
-    projects: '$(restoreBuildProjects)'
-    arguments: '--configuration $(buildConfiguration)'
+    steps:
 
-- task: MSBuild@1
-  displayName: build unit test database
-  inputs: 
-    solution: tests/TestDb/TestDb.sqlproj
-    createLogFile: true 
-    configuration: Release 
+    - task: DotNetCoreCLI@2
+      displayName: Restore
+      inputs:
+        command: restore
+        projects: '$(restoreBuildProjects)'
 
-- task: AzureKeyVault@1
-  inputs:
-    azureSubscription: $(azureSubscription)
-    keyVaultName: jeffvera-dev-keyvault    
-    secretsFilter: pipeline-fun-unittest-user-name,pipeline-fun-unittest-user-password
+    - task: DotNetCoreCLI@2
+      displayName: Build
+      inputs:
+        projects: '$(restoreBuildProjects)'
+        arguments: '--configuration $(buildConfiguration)'
 
-- task: SqlAzureDacpacDeployment@1
-  displayName: 'Deploy unit test database'
-  inputs:
-    azureSubscription: $(azureSubscription)
-    ServerName: $(sqlServerName)
-    DatabaseName: TestDb
-    SqlUsername: $(pipeline-fun-unittest-user-name)
-    SqlPassword: $(pipeline-fun-unittest-user-password)
-    DacpacFile: '.\tests\TestDb\bin\$(buildConfiguration)\TestDb.dacpac'
+    - task: MSBuild@1
+      displayName: build unit test database
+      inputs: 
+        solution: tests/TestDb/TestDb.sqlproj
+        createLogFile: true 
+        configuration: Release 
 
-- task: Powershell@2
-  condition: and( 
-              succeeded(),  
-              or( 
-                eq(variables['Build.SourceBranchName'],'master'), 
-                eq(variables['Build.SourceBranchName'], 'dev') 
-                ) 
-              ) 
-  displayName: run migrations 
-  inputs:
-    targetType: inline
-    script: .\src\StubForDatabase\mayflower.exe --folder=".\src\StubForDatabase\migrations" --connection="server=tcp:jeff-vera-discovery.database.windows.net,1433;Initial Catalog=IntegrationTestDb;Persist Security Info=False;User ID=$(pipeline-fun-unittest-user-name);Password=$(pipeline-fun-unittest-user-password);"
+    - task: AzureKeyVault@1
+      inputs:
+        azureSubscription: $(azureSubscription)
+        keyVaultName: jeffvera-dev-keyvault    
+        secretsFilter: pipeline-fun-unittest-user-name,pipeline-fun-unittest-user-password
 
-- script: >
-    dotnet test --logger trx .\tests\GarbageTests
-    /p:CollectCoverage=true 
-    /p:CoverletOutputFormat=cobertura 
-  displayName: 'Garbage tests'
+    - task: SqlAzureDacpacDeployment@1
+      displayName: 'Deploy unit test database'
+      inputs:
+        azureSubscription: $(azureSubscription)
+        ServerName: $(sqlServerName)
+        DatabaseName: TestDb
+        SqlUsername: $(pipeline-fun-unittest-user-name)
+        SqlPassword: $(pipeline-fun-unittest-user-password)
+        DacpacFile: '.\tests\TestDb\bin\$(buildConfiguration)\TestDb.dacpac'
 
-- script: >
-    dotnet test --logger trx .\tests\WasteTests
-    /p:CollectCoverage=true 
-    /p:CoverletOutputFormat=cobertura 
-  displayName: 'Waste tests'
+    - task: Powershell@2
+      condition: and( 
+                  succeeded(),  
+                  or( 
+                    eq(variables['Build.SourceBranchName'],'master'), 
+                    eq(variables['Build.SourceBranchName'], 'dev') 
+                    ) 
+                  ) 
+      displayName: run migrations 
+      inputs:
+        targetType: inline
+        script: .\src\StubForDatabase\mayflower.exe --folder=".\src\StubForDatabase\migrations" --connection="server=tcp:jeff-vera-discovery.database.windows.net,1433;Initial Catalog=IntegrationTestDb;Persist Security Info=False;User ID=$(pipeline-fun-unittest-user-name);Password=$(pipeline-fun-unittest-user-password);"
 
-- script: |
-    set unitTestDbUser=$(pipeline-fun-unittest-user-name)
-    set unitTestDbPassword=$(pipeline-fun-unittest-user-password)
-    dotnet test --logger trx .\tests\RefuseTests /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura  
-  displayName: 'Refuse tests'
+    - script: >
+        dotnet test --logger trx .\tests\GarbageTests
+        /p:CollectCoverage=true 
+        /p:CoverletOutputFormat=cobertura 
+      displayName: 'Garbage tests'
 
-- task: PublishTestResults@2
-  displayName: Publish test results 
-  inputs:
-    testRunner: VSTest
-    testResultsFiles: '**/*.trx'
+    - script: >
+        dotnet test --logger trx .\tests\WasteTests
+        /p:CollectCoverage=true 
+        /p:CoverletOutputFormat=cobertura 
+      displayName: 'Waste tests'
 
-- script: |
-    dotnet tool install dotnet-reportgenerator-globaltool --tool-path . --version 4.0.0-rc4
-    mkdir $(Build.SourcesDirectory)\results
-    .\reportgenerator "-reports:.\tests\*\coverage.cobertura.xml" "-targetdir:results" "-reporttypes:Cobertura" 
-    .\reportgenerator "-reports:.\tests\*\coverage.*.xml" "-targetdir:results" "-reporttypes:HTMLInline;HTMLChart"
-  displayName: "Generate coverage results"
+    - script: |
+        set unitTestDbUser=$(pipeline-fun-unittest-user-name)
+        set unitTestDbPassword=$(pipeline-fun-unittest-user-password)
+        dotnet test --logger trx .\tests\RefuseTests /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura  
+      displayName: 'Refuse tests'
 
-- task: PublishCodeCoverageResults@1
-  displayName: Publish code coverage results 
-  inputs:
-    summaryFileLocation: $(Build.SourcesDirectory)\results\Cobertura.xml
-    reportDirectory: $(Build.SourcesDirectory)\results
-    codecoverageTool: cobertura
-    failIfCoverageEmpty: true 
+    - task: PublishTestResults@2
+      displayName: Publish test results 
+      inputs:
+        testRunner: VSTest
+        testResultsFiles: '**/*.trx'
 
-- task: mspremier.BuildQualityChecks.QualityChecks-task.BuildQualityChecks@5
-  displayName: Check build quality 
-  inputs:
-    checkCoverage: true 
-    coverageFailOption: fixed 
-    coverageType: lines 
-    coverageThreshold: 10
+    - script: |
+        dotnet tool install dotnet-reportgenerator-globaltool --tool-path . --version 4.0.0-rc4
+        mkdir $(Build.SourcesDirectory)\results
+        .\reportgenerator "-reports:.\tests\*\coverage.cobertura.xml" "-targetdir:results" "-reporttypes:Cobertura" 
+        .\reportgenerator "-reports:.\tests\*\coverage.*.xml" "-targetdir:results" "-reporttypes:HTMLInline;HTMLChart"
+      displayName: "Generate coverage results"
 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact'
-  inputs:
-    PathtoPublish: '$(build.artifactstagingdirectory)'
+    - task: PublishCodeCoverageResults@1
+      displayName: Publish code coverage results 
+      inputs:
+        summaryFileLocation: $(Build.SourcesDirectory)\results\Cobertura.xml
+        reportDirectory: $(Build.SourcesDirectory)\results
+        codecoverageTool: cobertura
+        failIfCoverageEmpty: true 
+
+    - task: mspremier.BuildQualityChecks.QualityChecks-task.BuildQualityChecks@5
+      displayName: Check build quality 
+      inputs:
+        checkCoverage: true 
+        coverageFailOption: fixed 
+        coverageType: lines 
+        coverageThreshold: 10
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact'
+      inputs:
+        PathtoPublish: '$(build.artifactstagingdirectory)'
 
 
 
