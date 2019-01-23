@@ -28,7 +28,7 @@ jobs:
   - job: startup
     pool: 
       vmImage: 'VS2017-Win2016'
-      
+
     steps:
 
     - task: DotNetCoreCLI@2
@@ -79,6 +79,12 @@ jobs:
         targetType: inline
         script: .\src\StubForDatabase\mayflower.exe --folder=".\src\StubForDatabase\migrations" --connection="server=tcp:jeff-vera-discovery.database.windows.net,1433;Initial Catalog=IntegrationTestDb;Persist Security Info=False;User ID=$(pipeline-fun-unittest-user-name);Password=$(pipeline-fun-unittest-user-password);"
 
+  - job: nextOne
+    pool:
+      vmImage: 'VS2017-Win2016'
+
+    steps:  
+      
     - script: >
         dotnet test --logger trx .\tests\GarbageTests
         /p:CollectCoverage=true 
