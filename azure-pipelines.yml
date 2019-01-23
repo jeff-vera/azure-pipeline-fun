@@ -72,7 +72,13 @@ jobs:
         vmImage: 'VS2017-Win2016'
 
     steps:
-      
+
+    - task: AzureKeyVault@1
+      inputs:
+        azureSubscription: $(azureSubscription)
+        keyVaultName: jeffvera-dev-keyvault    
+        secretsFilter: pipeline-fun-unittest-user-name,pipeline-fun-unittest-user-password
+        
     - task: Powershell@2
       condition: and( 
                   succeeded(),  
